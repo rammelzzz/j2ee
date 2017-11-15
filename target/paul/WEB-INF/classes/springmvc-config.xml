@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!-- 配置自动扫描的包 -->
+    <context:component-scan base-package="cn.j2ee"/>
+    <!-- 静态资源文件的加载 -->
+    <mvc:resources mapping="/css/**" location="css/"/>
+    <mvc:resources mapping="/js/**" location="js/"/>
+    <mvc:resources mapping="/image/**" location="image"/>
+    <!-- 注解驱动 -->
+    <mvc:annotation-driven/>
+    <!-- 视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 加载jdbc配置文件属性 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+    <!-- dataSource配置 -->
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 当连接池中连接耗尽时c3p0一次同时获取的连接数 -->
+        <property name="acquireIncrement" value="5"/>
+        <!-- 初始连接池大小 -->
+        <property name="initialPoolSize" value="10"/>
+        <!-- 连接池中连接最小个数 -->
+        <property name="minPoolSize" value="5"/>
+        <!-- 连接池中连接最大个数 -->
+        <property name="maxPoolSize" value="20"/>
+    </bean>
+    <!-- mabatis事务托管给spring -->
+    <!--<bean id = "txManager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 使用声明式事务管理方式 &ndash;&gt;-->
+    <!--<tx:annotation-driven/>-->
+    <!-- 配置sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource"  ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:mapper/*"/>
+    </bean>
+    <!--<context:component-scan base-package="com" use-default-filters="false">-->
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+    <!--</context:component-scan>-->
+    </beans>
