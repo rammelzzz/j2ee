@@ -58,16 +58,16 @@
                 </thead>
                 <tbody>
                 <tr class="text-c">
-                <c:forEach items="managerList" var="manager">
-                    <td><input type="checkbox" value="1" name="${manager.name}"></td>
+                <c:forEach items="userList" var="user">
+                    <td><input type="checkbox" value="1" name="${user.name}"></td>
                     <td>1</td>
-                    <td>${manager.name}</td>
-                    <td>${manager.mobile}</td>
-                    <td>${manager.email}</td>
-                    <td>${manager.role}</td>
-                    <td>${manager.createTime}</td>
+                    <td>${user.name}</td>
+                    <td>${user.mobile}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.createTime}</td>
                     <td class="td-status"><span class="label label-success radius">
-                        <c:if test="${manager.status == 1}">
+                        <c:if test="${user.status == 1}">
                             已启用
                         </c:if>
                         <c:otherwise>

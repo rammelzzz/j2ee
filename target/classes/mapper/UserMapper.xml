@@ -4,9 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.j2ee.mapper.UserMapper">
     <select id="getUser" resultType="cn.j2ee.entity.User" parameterType="java.lang.String">
-        SELECT * FROM user
+        SELECT id, username, password FROM user
         <where>
             username = #{_parameter}
         </where>
     </select>
+
 </mapper>
