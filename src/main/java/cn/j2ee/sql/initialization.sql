@@ -9,7 +9,7 @@ CREATE TABLE user(
   username VARCHAR(32) NOT NULL,
   password VARCHAR(32) NOT NULL,
   mobile VARCHAR(16) NOT NULL,
-  sex BIT,
+  sex BOOLEAN,
   email VARCHAR(32),
   city VARCHAR(10),
   photoUrl VARCHAR(64),

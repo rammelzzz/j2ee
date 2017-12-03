@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Rammus on 2017/10/16.
  */
-public class User implements UserDetails,Serializable {
+public class User {
     /**
      * User的属性
      */
@@ -20,8 +20,6 @@ public class User implements UserDetails,Serializable {
     private String password;
     //手机号
     private String mobile;
-    //性别 true为男
-    private boolean sex;
     //邮箱
     private String email;
     //城市
@@ -37,10 +35,6 @@ public class User implements UserDetails,Serializable {
     public static final int _0 = 0;
     public static final int _1 = 1;
     public static final int _2 = 2;
-    //角色列表
-    private Set<Role> UsersRoles = new HashSet<Role>(0);
-    //权限列表
-    private Collection<GrantedAuthority> authorities;
     public User(){}
 
     /**
@@ -48,7 +42,6 @@ public class User implements UserDetails,Serializable {
      * @param username
      * @param password
      * @param mobile
-     * @param sex
      * @param email
      * @param city
      * @param photoUrl
@@ -56,11 +49,10 @@ public class User implements UserDetails,Serializable {
      * @param createTime
      * @param status
      */
-    public User(String username, String password, String mobile, boolean sex, String email, String city, String photoUrl, String description, Date createTime, Boolean status) {
+    public User(String username, String password, String mobile, String email, String city, String photoUrl, String description, Date createTime, Boolean status) {
         this.username = username;
         this.password = password;
         this.mobile = mobile;
-        this.sex = sex;
         this.email = email;
         this.city = city;
         this.photoUrl = photoUrl;
@@ -69,32 +61,12 @@ public class User implements UserDetails,Serializable {
         this.status = status;
     }
 
-    public Set<Role> getUsersRoles() {
-        return UsersRoles;
-    }
-
-    public void setUsersRoles(Set<Role> usersRoles) {
-        UsersRoles = usersRoles;
-    }
-
-    public void setAuthorities(Collection<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
     public String getMobile() {
         return mobile;
     }
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public boolean isSex() {
-        return sex;
-    }
-
-    public void setSex(boolean sex) {
-        this.sex = sex;
     }
 
     public String getEmail() {
@@ -167,10 +139,6 @@ public class User implements UserDetails,Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
     }
 
     public String getPassword() {

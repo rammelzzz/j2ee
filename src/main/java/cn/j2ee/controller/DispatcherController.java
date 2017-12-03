@@ -1,47 +1,45 @@
 package cn.j2ee.controller;
 
-import cn.j2ee.entity.User;
-import cn.j2ee.service.UserService;
+import cn.j2ee.service.IUserService;
+import cn.j2ee.utils.Constant;
+import cn.j2ee.utils.LoginUtil;
+import org.apache.commons.logging.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by Rammus on 2017/10/19.
  */
 @Controller
-@RequestMapping
+@RequestMapping(method = RequestMethod.GET)
 public class DispatcherController {
 
-
-    @RequestMapping(value = "/hello.do", method = RequestMethod.POST)
-    @ResponseBody
-    public String response() {
-        return "ok";
-    }
-
-    private UserService userService;
+    @Autowired
+    private IUserService userService;
 
     @RequestMapping(value = "/admin-list.do")
-    public String adminList() {
-        return "admin-list";
+    public String adminList(HttpSession session, Model model) {
+        if(LoginUtil.isLogin(session)) {
+            model.addAttribute("userList", userService.listUsers());
+            return "admin-list";
+        } else {
+            return LoginUtil.needLogin(model);
+        }
     }
 
-    @RequestMapping(value = "/admin-permission.do")
-    public String adminPermission() {
-        return "admin-permission";
+    @RequestMapping(value = "/admin-add.do")
+    public String addminAdd(HttpSession session) {
+        return LoginUtil.isLogin(session, "admin-add");
     }
-
-    @RequestMapping(value = "/admin-role.do")
-    public String adminRole() {
-        return "admin-role";
-    }
-
     @RequestMapping(value = "/article-add.do")
-    public String articleAdd() {
-        return "article-add";
+    public String articleAdd(HttpSession session) {
+        return LoginUtil.isLogin(session, "article-add");
     }
 
     @RequestMapping(value = "/article-list.do")
@@ -149,5 +147,12 @@ public class DispatcherController {
         return "system-shielding";
     }
 
-
+    /**
+     * 返回登录页面
+     * @return
+     */
+    @RequestMapping(value = "/login.do")
+    public String login() {
+        return "login";
+    }
 }
