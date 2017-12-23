@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!-- 配置自动扫描的包 -->
-    <context:component-scan base-package="cn.j2ee"/>
+    <context:component-scan base-package="cn.j2ee.*"/>
     <!-- 静态资源文件的加载 -->
     <mvc:resources mapping="/css/**" location="css/"/>
     <mvc:resources mapping="/js/**" location="js/"/>
