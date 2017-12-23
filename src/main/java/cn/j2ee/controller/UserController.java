@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
@@ -21,13 +22,13 @@ import java.security.NoSuchAlgorithmException;
  * User 即是管理员
  */
 @Controller
-@RequestMapping
+@RequestMapping(value = "/user/")
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     public String login(String username, String password, String verCode, HttpSession session, Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String verifyCode = (String)session.getAttribute("verCode");
         if(!StringUtil.isSame(verCode, verifyCode)) {
@@ -52,24 +53,29 @@ public class UserController {
     }
 
     @RequestMapping(value = "admin-add.do", method = RequestMethod.POST)
-    public String addUser(User user, HttpSession session) {
+    public String addUser(User user, HttpSession session, Model model) {
         if(user == null) {
             return "admin-list";
         }
         if(userService.checkUser(user.getUsername()) > 0) {
-            session.setAttribute(Constant.ERROR, Constant.USER_EXIST);
+            model.addAttribute(Constant.ERROR, Constant.USER_EXIST);
         } else {
             try {
                 userService.addUser(user);
-                session.setAttribute(Constant.ERROR, Constant.SUCCESS);
+                //添加成功，向前台返回添加成功信息
+                model.addAttribute(Constant.ERROR, Constant.SUCCESS);
             } catch (Exception e) {
-                session.setAttribute(Constant.ERROR, Constant.DATABASE_ERROR);
+                model.addAttribute(Constant.ERROR, Constant.DATABASE_ERROR);
             }
         }
         return "admin-list";
     }
 
-
+    @RequestMapping(value = "changeStatus.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse changeStatus(int status, int user_id) {
+        return null;
+    }
 
 
 }

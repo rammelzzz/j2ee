@@ -1,5 +1,7 @@
 package cn.j2ee.response;
 
+import cn.j2ee.common.ResponseCode;
+
 /**
  * Created by Rammus on 2017/11/15.
  */
@@ -27,7 +29,11 @@ public class ServerResponse<T> {
         this.data =data;
     }
 
-    public static ServerResponse createBySuccess(String msg) {
-        return new ServerResponse();
-    }
-}
+public static ServerResponse createBySuccess() {
+        return new ServerResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getDesc());
+        }
+
+public static ServerResponse createByError() {
+        return new ServerResponse(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc());
+        }
+        }

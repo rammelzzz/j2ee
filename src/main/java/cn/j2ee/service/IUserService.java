@@ -1,6 +1,8 @@
 package cn.j2ee.service;
 
 import cn.j2ee.entity.User;
+import cn.j2ee.response.ServerResponse;
+import com.sun.corba.se.spi.activation.Server;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -37,4 +39,11 @@ public interface IUserService {
      */
     public List<User> listUsers();
 
+    /**
+     * 修改用户的状态
+     * @param user_id
+     * @param status
+     * @return
+     */
+    public ServerResponse changeStatus(int user_id, int status);
 }

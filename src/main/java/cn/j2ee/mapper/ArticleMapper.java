@@ -5,6 +5,6 @@ package cn.j2ee.mapper;
  */
 public interface ArticleMapper {
 
-
+    public void addArticle();
 
 }

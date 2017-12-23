@@ -2,6 +2,7 @@ package cn.j2ee.service.impl;
 
 import cn.j2ee.entity.User;
 import cn.j2ee.mapper.UserMapper;
+import cn.j2ee.response.ServerResponse;
 import cn.j2ee.service.IUserService;
 import cn.j2ee.utils.Constant;
 import org.apache.ibatis.session.SqlSession;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Rammus on 2017/10/16.
  */
-@Service("userService")
+@Service("iUserService")
 public class UserServiceImpl implements IUserService {
 
     @Autowired
@@ -47,6 +48,21 @@ public class UserServiceImpl implements IUserService {
 
     public List<User> listUsers() {
         return userMapper.listUsers();
+    }
+
+    /**
+     * 改变用户的状态
+     * @param user_id
+     * @param status
+     * @return
+     */
+    public ServerResponse changeStatus(int user_id, int status) {
+        try {
+            userMapper.changeStatus(user_id, status);
+            return ServerResponse.createBySuccess();
+        } catch (Exception e) {
+            return ServerResponse.createByError();
+        }
     }
 
 
